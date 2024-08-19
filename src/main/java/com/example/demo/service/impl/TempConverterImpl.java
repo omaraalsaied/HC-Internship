@@ -6,7 +6,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class TempConverterImpl implements TempConverter {
     @Override
-    public Double CelToFeh(Double cel) {
+    public Double CelToFeh(Double cel) throws Exception {
+        if(cel < -273.15) {
+            throw new IllegalArgumentException("Temperature too low");
+        } else if (cel > 60 ) {
+            throw new IllegalArgumentException("Temperature too High");
+        }
         return (cel * 9/5) + 32;
     }
 
@@ -31,7 +36,7 @@ public class TempConverterImpl implements TempConverter {
     }
 
     @Override
-    public Double KelToFeh(Double kel) {
-        return CelToFeh(CelToKel(kel));
+    public Double KelToFeh(Double kel) throws Exception {
+        return CelToFeh(KelToCel(kel));
     }
 }
